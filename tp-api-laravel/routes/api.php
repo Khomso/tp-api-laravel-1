@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\API\ConsoleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\JoueurController;
+use App\Http\Controllers\API\ConsoleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,4 +26,12 @@ Route::controller(ConsoleController::class)->group(function () {
     Route::get('consoles/{console}', 'show');
     Route::post('consoles/{console}', 'update');
     Route::delete('consoles/{console}', 'destroy');
+});
+
+Route::controller(JoueurController::class)->group(function () {
+    Route::get('joueurs', 'index');
+    Route::post('joueurs', 'store'); //->middleware('auth:api');
+    Route::get('joueurs/{joueur}', 'show');
+    Route::post('joueurs/{joueur}', 'update');
+    Route::delete('joueurs/{joueur}', 'destroy');
 });
