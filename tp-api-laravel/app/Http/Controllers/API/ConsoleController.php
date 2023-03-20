@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Http\Controllers\API;
+
 use App\Models\Console;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
 class ConsoleController extends Controller
@@ -12,10 +14,15 @@ class ConsoleController extends Controller
      */
     public function index()
     {
-        // On récupère tous les utilisateurs
-        $Console = console::all();
+        $joueur = DB::table('consoles')
+            ->join('joueurs', 'joueur.id', '=', 'consoles.joueur_id')
+            ->get()
+            ->toArray();
         // On retourne les informations des utilisateurs en JSON
-        return response()->json($Console);
+        return response()->json([
+            'status' => 'Success',
+            'data' => $joueur,
+        ]);
     }
 
     /**
@@ -25,15 +32,15 @@ class ConsoleController extends Controller
     {
         $request->validate([
             'nomConsole' => 'required|max:100',
-            ]);
-            $Console = Console::create([
+        ]);
+        $Console = Console::create([
             'nomConsole' => $request->nomConsole,
-            ]);
-            return response()->json([
+            'joueur_id'=> $request->joueur_id,
+        ]);
+        return response()->json([
             'status' => 'Success',
             'data' => $Console,
-            ]);
-            
+        ]);
     }
 
     /**
@@ -51,22 +58,26 @@ class ConsoleController extends Controller
     {
         $this->validate($request, [
             'nomConsole' => 'required|max:100',
-            ]);
-            $console->update([
+        ]);
+        $console->update([
             'nomConsole' => $request->nomConsole,
-            ]);
-            return response()->json([
-            'status' => 'Mise à jour avec succèss']);
+            'joueur_id'=> $request->joueur_id,
+
+        ]);
+        return response()->json([
+            'status' => 'Mise à jour avec succèss'
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Console $console)
-    {   
+    {
         // On supprime l'utilisateur
         $console->delete();
         return response()->json([
-            'status' => 'Supprimer avec succès']);
+            'status' => 'Supprimer avec succès'
+        ]);
     }
 }
