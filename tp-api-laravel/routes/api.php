@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\JeuxController;
 use App\Http\Controllers\API\JoueurController;
 use App\Http\Controllers\API\ConsoleController;
 
@@ -34,4 +35,12 @@ Route::controller(JoueurController::class)->group(function () {
     Route::get('joueurs/{joueur}', 'show');
     Route::post('joueurs/{joueur}', 'update');
     Route::delete('joueurs/{joueur}', 'destroy');
+});
+
+Route::controller(JeuxController::class)->group(function () {
+    Route::get('jeux', 'index');
+    Route::post('jeux', 'store'); //->middleware('auth:api');
+    Route::get('jeux/{jeux}', 'show');
+    Route::post('jeux/{jeux}', 'update');
+    Route::delete('jeux/{jeux}', 'destroy');
 });

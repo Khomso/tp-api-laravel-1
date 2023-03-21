@@ -5,15 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Console extends Model
+class Jeux extends Model
 {
     use HasFactory;
-    protected $fillable =['nomConsole','joueur_id'];
+    protected $fillable = ['nomJeux','categorieJeux'];
 
-    public function jeux()
+    public function console()
     {
             //Relation many to many avec producers
-        return $this->belongsToMany('App\Models\Jeux');
+        return $this->belongsToMany('App\Models\Console');
     }
 
 }
+
